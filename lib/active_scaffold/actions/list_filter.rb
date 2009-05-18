@@ -1,6 +1,13 @@
 module ActiveScaffold::Actions
   module ListFilter
     def self.included(base)
+      # add app/views/active_scaffold_list_filters to the view paths for custom filters
+      base.view_paths.each do |dir|
+        if File.exists?(File.join(dir,"active_scaffold_list_filters"))
+          base.append_view_path(File.join(dir,"active_scaffold_list_filters")) 
+        end
+      end
+
       active_scaffold_default_frontend_path = File.join(Rails.root, 'vendor', 'plugins', File.expand_path(__FILE__).match(/vendor\/plugins\/([^\/]*)/)[1], 'frontends', 'default' , 'views')
       base.append_view_path(active_scaffold_default_frontend_path)      
       
